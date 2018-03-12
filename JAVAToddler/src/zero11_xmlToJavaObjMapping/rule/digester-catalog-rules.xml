@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE digester-rules PUBLIC
+  "-//Apache Commons //DTD digester-rules XML V1.0//EN"
+  "http://commons.apache.org/digester/dtds/digester-rules-3.0.dtd">
+<digester-rules>
+	<pattern value="entries">
+		<object-create-rule classname="zero11_xmlToJavaObjMapping.mapping.Entries"/>
+		<set-properties-rule></set-properties-rule>
+	
+		<pattern value="entry">
+			<object-create-rule classname="zero11_xmlToJavaObjMapping.mapping.Entry"/>
+		    <set-properties-rule></set-properties-rule>
+		     	
+			<pattern value="chain">
+				<object-create-rule classname="zero11_xmlToJavaObjMapping.mapping.Chain"/>
+				<set-properties-rule>
+					<alias attr-name="testAttribute" prop-name="test"/>
+				</set-properties-rule>
+				
+				<pattern value="command">
+					<object-create-rule classname="zero11_xmlToJavaObjMapping.mapping.Command"/>
+					<set-properties-rule></set-properties-rule>
+					<!-- 상위 패턴에 선언된 객체에 완성된 현 패턴의 값을 셋팅할때 설정-->
+					<set-next-rule methodname="addCommands" paramtype="zero11_xmlToJavaObjMapping.mapping.Command"/>
+				</pattern>
+				
+				<set-next-rule methodname="addChains" paramtype="zero11_xmlToJavaObjMapping.mapping.Chain"/>
+			</pattern>
+			
+			<set-next-rule methodname="addEntries" paramtype="zero11_xmlToJavaObjMapping.mapping.Entry"/>
+		</pattern>
+	</pattern>
+</digester-rules>

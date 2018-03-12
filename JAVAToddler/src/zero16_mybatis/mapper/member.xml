@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+	<!-- 
+	     resultMap : type="맵핑 대상 객체" id="resultMap의 유니크 id"
+	               하위 엘리먼트 : id pk 컬럼 대상 설정.
+	     1:1 association 활용
+	     1:N collection 활용
+	     
+	        * id 엘리먼트 : column 속성값이 그룹핑 키값으로 적용.
+	          
+	     테이블 조인처리 1.
+	 -->
+	<resultMap type="memberVO" id="memberResultMap1">
+		<id property="mem_id" column="mem_id"/>
+		<result property="mem_pass" column="mem_pass"/>
+		<result property="mem_name" column="mem_name"/>
+		<result property="mem_regno1" column="mem_regno1"/>
+		<result property="mem_regno2" column="mem_regno2"/>
+		<result property="mem_bir" column="mem_bir"/>
+		<result property="mem_zip" column="mem_zip"/>
+		<result property="mem_add1" column="mem_add1"/>
+		<result property="mem_add2" column="mem_add2"/>
+		<result property="mem_hometel" column="mem_hometel"/>
+		<result property="mem_comtel" column="mem_comtel"/>
+		<result property="mem_hp" column="mem_hp"/>
+		<result property="mem_mail" column="mem_mail"/>
+		<result property="mem_job" column="mem_job"/>
+		<result property="mem_like" column="mem_like"/>
+		<collection property="cartInfos" ofType="cartVO">
+			<result property="cart_no" column="cart_no"/>
+			<result property="cart_member" column="cart_member"/>
+			<result property="cart_prod" column="cart_prod"/>
+			<result property="cart_qty" column="cart_qty"/>
+		</collection>
+	</resultMap>
+	
+	<!-- 테이블 조인처리 2. -->
+	<resultMap type="memberVO" id="memberResultMap2">
+		<id property="mem_id" column="mem_id"/>
+		<result property="mem_pass" column="mem_pass"/>
+		<result property="mem_name" column="mem_name"/>
+		<result property="mem_regno1" column="mem_regno1"/>
+		<result property="mem_regno2" column="mem_regno2"/>
+		<result property="mem_bir" column="mem_bir"/>
+		<result property="mem_zip" column="mem_zip"/>
+		<result property="mem_add1" column="mem_add1"/>
+		<result property="mem_add2" column="mem_add2"/>
+		<result property="mem_hometel" column="mem_hometel"/>
+		<result property="mem_comtel" column="mem_comtel"/>
+		<result property="mem_hp" column="mem_hp"/>
+		<result property="mem_mail" column="mem_mail"/>
+		<result property="mem_job" column="mem_job"/>
+		<result property="mem_like" column="mem_like"/>
+		<collection property="cartInfos" column="mem_id" select="cart.getCartInfo"></collection>
+	</resultMap>
+
+	<!-- 테이블 조인처리 3. -->
+	<resultMap type="memberVO" id="memberResultMap3">
+		<id property="mem_id" column="mem_id"/>
+		<result property="mem_pass" column="mem_pass"/>
+		<result property="mem_name" column="mem_name"/>
+		<result property="mem_regno1" column="mem_regno1"/>
+		<result property="mem_regno2" column="mem_regno2"/>
+		<result property="mem_bir" column="mem_bir"/>
+		<result property="mem_zip" column="mem_zip"/>
+		<result property="mem_add1" column="mem_add1"/>
+		<result property="mem_add2" column="mem_add2"/>
+		<result property="mem_hometel" column="mem_hometel"/>
+		<result property="mem_comtel" column="mem_comtel"/>
+		<result property="mem_hp" column="mem_hp"/>
+		<result property="mem_mail" column="mem_mail"/>
+		<result property="mem_job" column="mem_job"/>
+		<result property="mem_like" column="mem_like"/>
+		<collection property="cartInfos" ofType="cartVO">
+			<result property="cart_no" column="cart_no"/>
+			<result property="cart_member" column="cart_member"/>
+			<result property="cart_prod" column="cart_prod"/>
+			<result property="cart_qty" column="cart_qty"/>
+			<collection property="prodInfos" ofType="prodVO">
+				<result property="prod_id" column="prod_id"/>
+				<result property="prod_name" column="prod_name"/>
+				<result property="prod_buyer" column="prod_buyer"/>
+				<result property="prod_cost" column="prod_cost"/>
+				<result property="prod_price" column="prod_price"/>
+				<result property="prod_sale" column="prod_sale"/>
+			</collection>
+		</collection>
+	</resultMap>
+
+	<!-- 프로시저 호출을위한 파라메터맵 선언 -->
+	<parameterMap type="memberVO" id="memberInfo_param1">
+		<parameter property="mem_id" mode="IN" javaType="string" jdbcType="VARCHAR"/>
+		<parameter property="mem_pass" mode="IN" javaType="string" jdbcType="VARCHAR"/>
+		<parameter property="rtn_mem_regno1" mode="OUT" javaType="string" jdbcType="CHAR" />
+		<parameter property="rtn_mem_regno2" mode="OUT" javaType="string" jdbcType="CHAR" />
+	</parameterMap>
+	
+	<!-- 펑션 호출 파라메터 선언 -->
+	<parameterMap type="map" id="memberInfo_param2">
+		<parameter property="rtn_mem_like" mode="OUT" javaType="java.lang.Object" jdbcType="VARCHAR"/>
+		<parameter property="param_mem_id" mode="IN" javaType="string" jdbcType="VARCHAR"/>
+		<parameter property="param_mem_pass" mode="IN" javaType="string" jdbcType="VARCHAR"/>
+	</parameterMap>
+	
+	<!-- 팩키지 호출 파라메터 선언 -->
+	<parameterMap type="map" id="memberInfo_param3">
+		<parameter property="param_mem_id" mode="IN" javaType="string" jdbcType="VARCHAR" />
+		<parameter property="param_mem_pass" mode="IN" javaType="string" jdbcType="VARCHAR"/>
+		<parameter property="memberObj" mode="OUT" javaType="java.sql.ResultSet" 
+		    jdbcType="CURSOR" resultMap="memberInfo_result1"/>
+	</parameterMap>	
+	<!-- oracle cursor 객체 취득 -->
+	<resultMap type="memberVO" id="memberInfo_result1">
+		<result property="mem_regno1" column="rtn_mem_regno1"/>
+		<result property="mem_regno2" column="rtn_mem_regno2"/>
+		<result property="mem_add1" column="rtn_mem_add1"/>
+		<result property="mem_add2" column="rtn_mem_add2"/>
+	</resultMap>
+	
+	<sql id="memberAll">      
+		SELECT * FROM MEMBER      
+	</sql>                     
+	
+	<select id="getMemberInfo" parameterType="map" resultType="memberVO">
+		<include refid="memberAll"/>    
+		WHERE MEM_ID = #{mem_id}
+  		  AND MEM_PASS = #{mem_pass}           
+	</select>
+
+	<select id="getMemberList" resultType="memberVO">
+		<include refid="memberAll"/>
+	</select>	
+
+	<select id="getConditionTest" parameterType="map" resultType="memberVO">
+		SELECT * 
+		  FROM MEMBER
+		  <if test="mem_id == ''">
+		  		WHERE MEM_ID = 'e001'
+		  </if>
+		  <if test="mem_id != null">
+		  		WHERE MEM_ID = 'f001'
+		  </if>
+		  <if test="mem_id == null">
+		  		WHERE MEM_ID = 'g001'
+		  </if>
+		  <if test="mem_pass != null and mem_pass == asdfasdf">
+		  		WHERE MEM_ID = 'a001'
+		  </if>
+	</select>
+	
+	<select id="getDynamicMemberList" parameterType="map" resultType="memberVO">
+		<include refid="memberAll"/>
+		<where>
+			<if test="mem_id != a001">
+				MEM_ID = #{mem_id} AND
+			</if>
+			<if test="mem_id != b001">
+				MEM_ID = #{mem_id} AND
+			</if>
+			<if test="mem_mileage != null">
+				<![CDATA[
+					MEM_MILEAGE >= #{mem_mileage} AND
+				]]>
+			</if>
+			<if test="mem_add1 != null">
+				MEM_ADD1 like '%'||#{mem_add1}||'%' AND
+			</if>
+			<if test="jobs != null">
+				mem_job in
+				<foreach collection="jobs" item="job" open="(" separator="," close=")">
+					#{job}
+				</foreach>
+			</if>
+		</where>
+	</select>
+	
+	<!-- 
+		MyBatis에 List 인스턴스 또는 배열을 parameterType으로 전달할수있으며, 전달되는 파라메터는 MyBatis에의해
+	    Map 타입으로 자동 랩핑되며, List 인스턴스는 'LIST', 배열 인스턴스는 'array'를 키로 활용함.
+	 -->
+	<select id="getMemberListUseList" parameterType="list" resultType="memberVO">
+		<include refid="memberAll"/>
+		<trim prefix="where" prefixOverrides="AND">
+			MEM_LIKE IN
+			<foreach collection="list" item="value" open="(" separator="," close=")">
+				#{value}
+			</foreach>
+		</trim>
+	</select>
+	
+	<update id="updateMileage" parameterType="memberVO">
+		UPDATE MEMBER 
+		   SET MEM_MILEAGE = 5000
+		 WHERE MEM_ID = #{mem_id}
+	</update>
+
+	<select id="getMemberJob" parameterType="memberVO"
+		resultType="string">
+		SELECT MEM_JOB 
+		  FROM MEMBER 
+		 WHERE MEM_ID = #{mem_id}
+		   AND MEM_PASS = #{mem_pass}
+	</select>
+	
+	<insert id="insertMemberInfo" parameterType="memberVO">
+		INSERT INTO MEMBER
+					(MEM_ID, 
+					 MEM_PASS, 
+					 MEM_NAME, 
+					 MEM_REGNO1,
+					 MEM_REGNO2, 
+					 MEM_ZIP, 
+					 MEM_ADD1, 
+					 MEM_ADD2,
+					 MEM_HOMETEL, 
+					 MEM_COMTEL,
+					 MEM_MAIL)
+		        VALUES(
+		             #{mem_id}, 
+		             #{mem_pass}, 
+		             #{mem_name}, 
+		             #{mem_regno1},
+                     #{mem_regno2}, 
+                     #{mem_zip}, 
+                     #{mem_add1}, 
+                     #{mem_add2},
+                     #{mem_hometel}, 
+                     #{mem_comtel},
+                     #{mem_mail})
+        <selectKey resultType="string">
+        	select mem_id from member where mem_id = #mem_id#
+        </selectKey>
+	</insert>
+	
+	<delete id="deleteMemberInfo" parameterType="map">
+		DELETE FROM MEMBER
+		 WHERE MEM_ID = #{mem_id}
+	</delete>
+	
+	<!-- 조인 쿼리 -->
+	<select id="tablejoin1" parameterType="string" resultMap="memberResultMap1">
+		<include refid="memberAll"/> 
+		      LEFT OUTER JOIN CART ON(MEMBER.MEM_ID=CART.CART_MEMBER)
+		WHERE MEMBER.MEM_ID = #{mem_id}
+	</select>
+	
+	<!-- 개별 쿼리를 활용한 테이블 조인 처리(서브쿼리와 동일한 실행) -->
+	<select id="tablejoin2" parameterType="string"
+		resultMap="memberResultMap2">
+		<include refid="memberAll"/>
+		WHERE MEMBER.MEM_ID = #{mem_id}
+	</select>
+
+	<!-- 조인 처리-->
+	<select id="tablejoin3" parameterType="string"
+		resultMap="memberResultMap3">
+		SELECT *
+		  FROM MEMBER mem INNER JOIN CART cart ON(mem.MEM_ID = cart.cart_member)
+		                  INNER JOIN PROD prod ON(cart.CART_PROD = prod.PROD_ID)
+		 WHERE mem.MEM_ID = #{mem_id}
+		 ORDER BY cart.CART_NO
+	</select>
+
+	<!-- 프로시저 호출 -->
+	<update id="iUP_MemberInfo1" statementType="CALLABLE" parameterMap="memberInfo_param1">
+		{ call UP_MemberInfo(?,?,?,?) }
+	</update>
+	
+	<update id="iUP_MemberInfo2" statementType="CALLABLE" parameterType="memberVO">
+		{ call UP_MemberInfo(#{param_mem_id,mode=IN,javaType=string,jdbcType=VARCHAR},
+		                     #{param_mem_pass,mode=IN,javaType=string,jdbcType=VARCHAR},
+		                     #{rtn_mem_regno1,mode=OUT,javaType=string,jdbcType=CHAR},
+		                     #{rtn_mem_regno2,mode=OUT,javaType=string,jdbcType=CHAR})
+		}
+	</update>
+	
+	<!-- 펑션 호출 -->
+	<update id="iUF_MemberInfo1" statementType="CALLABLE" parameterMap="memberInfo_param2">
+		{ ? = call UF_MemberInfo(?, ?) }
+	</update>
+	
+	<update id="iUF_MemberInfo2" statementType="CALLABLE" parameterType="map">
+		{  #{rtn_mem_like,mode=OUT,javaType=string,jdbcType=VARCHAR} = call 
+		                UF_MemberInfo(#{param_mem_id,mode=IN,javaType=string,jdbcType=VARCHAR},
+		                              #{param_mem_pass,mode=IN,javaType=string,jdbcType=VARCHAR})
+		}                       
+	</update>
+	
+	<!-- 팩키지 후출 -->
+	<update id="iPkg_UP_MemberInfo5" statementType="CALLABLE"  parameterMap="memberInfo_param3">
+		{ call pkg_UP_MemberInfoCursor.UP_MemberInfoCursor(?, ?, ?) }
+	</update>
+</mapper> 
+
+
+
+
+
+
+
+
+

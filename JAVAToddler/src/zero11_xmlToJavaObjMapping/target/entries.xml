@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entries>
+	<entry>
+		<chain name="main" testAttribute="entry1_chain1">
+			<command className="kr.or.ddit.servlet.MainServlet"></command>
+		</chain>
+	</entry>
+	<entry>
+		<chain name="loginForm" testAttribute="entry2_chain1">
+			<command attribute="nonParamas" 
+			         className="kr.or.ddit.servlet.join.LoginFormServlet"></command>
+		</chain>
+		<chain name="login" testAttribute="entry2_chain2">
+			<command attribute="paramas" 
+			         className="kr.or.ddit.servlet.join.LoginServlet"></command>
+		</chain>
+		<chain name="logout" testAttribute="entry2_chain3">
+			<command className="kr.or.ddit.servlet.join.LogoutServlet"></command>
+		</chain>
+	</entry>
+	<entry>
+		<chain name="memberList" testAttribute="entry3_chain1">
+			<command attribute="nonParamas"
+				     className="kr.or.ddit.servlet.member.MemberListServlet" />
+		</chain>
+		<chain name="memberListForm" testAttribute="entry3_chain2">
+			<command attribute="paramas"
+				     className="kr.or.ddit.servlet.member.MemberListFormServlet" />
+		</chain>
+		<chain name="memberForm" testAttribute="entry3_chain3">
+			<command attribute="params"
+				     className="kr.or.ddit.servlet.member.MemberFormServlet" />
+		</chain>
+		<chain name="memberInfoInsert" testAttribute="entry3_chain4">
+			<command attribute="params"
+				     className="kr.or.ddit.servlet.member.MemberInfoInsertServlet" />
+		</chain>
+		<chain name="memberInfoUpdate" testAttribute="entry3_chain5">
+			<command attribute="params"
+				     className="kr.or.ddit.servlet.member.MemberInfoUpdateServlet" />
+		</chain>
+		<chain name="memberInfoDelete" testAttribute="entry3_chain6">
+			<command attribute="params"
+				     className="kr.or.ddit.servlet.member.MemberInfoDeleteServlet" />
+		</chain>
+		<chain name="memberInfoDetail" testAttribute="entry3_chain7">
+			<command attribute="params"
+				     className="kr.or.ddit.servlet.member.MemberInfoDetailServlet" />
+		</chain>
+		<chain name="memberInfoForm" testAttribute="entry3_chain8">
+			<command attribute="params"
+				     className="kr.or.ddit.servlet.member.MemberInfoFormServlet" />
+		</chain>
+	</entry>
+</entries>

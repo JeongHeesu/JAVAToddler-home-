@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE members SYSTEM "../zero26_dtd_sample/attributes.dtd">
+<members>
+	<member mem_id="a001" mem_pass="asdfasdf" mem_name="김은대" 
+	        mem_regno1="123456" mem_regno2="1234567" mem_job="주부"
+	        mem_like="독서 영화">
+	</member>
+	<member mem_id="b001" mem_pass="1004" mem_name="이쁜이"
+			mem_nickname="이뿌니" 
+	        mem_regno1="123456" mem_regno2="1234567" 
+	        mem_like="게임">
+	</member>
+</members>

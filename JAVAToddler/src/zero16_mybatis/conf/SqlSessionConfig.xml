@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties resource="zero16_mybatis/conf/SqlSessionConfig.properties" />
+	
+	<typeAliases>
+		<typeAlias alias="memberVO" type="zero16_mybatis.bean.MemberBean"/>
+		<typeAlias alias="cartVO" type="zero16_mybatis.bean.CartBean"/>
+		<typeAlias alias="prodVO" type="zero16_mybatis.bean.ProdBean"/>
+	</typeAliases>
+	
+   	<environments default="development">
+  		<environment id="development">
+			<transactionManager type="JDBC" />
+			<!-- dataSource type iBatis   myBatis 
+			                     SIMPLE   UNPOOLED
+			                     DBCP     POOLED
+			                     JNDI     JNDI                  
+			 -->
+			<dataSource type="UNPOOLED">
+				<property name="driver" value="${driver}" />
+				<property name="url" value="${url}" />
+   				<property name="username" value="${username}" />
+   				<property name="password" value="${password}" />
+  			</dataSource>
+<!--   			<dataSource type="POOLED"> -->
+<!-- 				<property name="driver" value="${driver}" /> -->
+<!-- 				<property name="url" value="${url}" /> -->
+<!--    				<property name="username" value="${username}" /> -->
+<!--    				<property name="password" value="${password}" /> -->
+<!--    				<property name="poolMaximumActiveConnections" value="20"/> -->
+<!--                 <property name="poolMaximumIdleConnections" value="20"/> -->
+<!--                 <property name="poolMaximumCheckoutTime" value="20000"/> -->
+<!--                 <property name="poolPingEnabled" value="true"/> -->
+<!--                 <property name="poolPingQuery" value="select 1"/> -->
+<!--                 <property name="poolPingConnectionsNotUsedFor" value="43200"/> -->
+<!--                 <property name="poolTimeToWait" value="30000"/> -->
+<!--                 <property name="driver.encoding" value="UTF-8"/> -->
+<!--   			</dataSource> -->
+<!--   			<dataSource type="JNDI"> -->
+<!-- 		        <property name="DataSource" value="java:comp/env/jdbc/ddit"/> -->
+<!-- 		    </dataSource> -->
+		</environment>
+ 	</environments>
+	
+   	<mappers>			
+		<mapper resource="zero16_mybatis/mapper/member.xml" />
+		<mapper resource="zero16_mybatis/mapper/cart.xml" />
+		<mapper resource="zero16_mybatis/mapper/queryState.xml" />
+ 	</mappers>	
+</configuration>	
+
+
+
+
+
+
+
+
+
+
+
+
+

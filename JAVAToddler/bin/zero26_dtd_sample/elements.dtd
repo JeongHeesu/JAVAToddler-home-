@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT members (member)+>
+	<!ELEMENT member ((male | female)?, mem_id, mem_pass, mem_name, mem_regno1?, mem_regno2?,
+	                  (mem_hometel | mem_comtel | mem_hp)+, mem_mail*)>
+		<!ELEMENT male (#PCDATA)>                                        
+		<!ELEMENT female (#PCDATA)>                                        
+		<!ELEMENT mem_id (#PCDATA)>
+		<!ELEMENT mem_pass (#PCDATA)>
+		<!ELEMENT mem_name (#PCDATA)>
+		<!ELEMENT mem_regno1 (#PCDATA)>
+		<!ELEMENT mem_regno2 (#PCDATA)>
+		<!ELEMENT mem_hometel (#PCDATA)>
+		<!ELEMENT mem_comtel (#PCDATA)>
+		<!ELEMENT mem_hp (#PCDATA)>
+		<!ELEMENT mem_mail (#PCDATA)>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="ehcache.xsd">
+
+	<diskStore path="D:\\temp\diskStore" />
+	
+	<!-- 기본 cache 설정(필수). -->
+	<defaultCache maxElementsInMemory="10000" 
+		eternal="false"
+		timeToIdleSeconds="120" 
+		timeToLiveSeconds="120" 
+		overflowToDisk="true"
+		maxElementsOnDisk="10000000" 
+		diskPersistent="false"
+		diskExpiryThreadIntervalSeconds="120" 
+		memoryStoreEvictionPolicy="LRU" />
+	
+	<!-- member table 대상 Cache. 
+	     maxElementsInMemory="10000" : 최대 10000개의 Element를 메모리에 저장.
+	     overflowToDisk="true" : 메모리에 Element 저장 수가 오버될때 Disk에 저장.
+	     maxElementsOnDisk="1000" : 최대 1000개의 객체를 저장.
+	     eternal="false" : 캐시 설정 중 timeout 관련 설정.(true 시 timeout 관련 설정 무시됨.)
+	     timeToIdleSeconds="300" : 캐시에 저장된 Element가 5분 이상 사용되지 않을때 캐시에서 제거. 
+	     timeToLiveSeconds="600" : 캐시에 Element가 10분 이상 저장되어있는 경우 캐시에서 제거.
+	     memoryStoreEvictionPolicy="LFU" : 캐시 내 Element들의 제거방식은 참조횟수 기준의 최저활용빈도 순으로 제거.
+	     diskExpiryThreadIntervalSeconds="60" : timeout 설정을통해 제거될 Element의 스캔 스레드 동작 시간.  
+	-->
+	<cache name="memberCache" 
+		maxElementsInMemory="10000"
+		overflowToDisk="true"
+		maxElementsOnDisk="1000" 
+		eternal="false" 
+		timeToIdleSeconds="300" 
+		timeToLiveSeconds="600"
+		memoryStoreEvictionPolicy="LFU"
+		diskExpiryThreadIntervalSeconds="60" />
+
+    <!-- prod table 대상 Cache
+		 maxElementsInMemory="1000" : 최대 1000개의 Element를 메모리에 저장.
+		 overflowToDisk="false" : 메모리에 저장 가능한 Element 수가 오버될때 디스크에 저장하지 않음.
+		 eternal="true" : 캐시 설정 중 timeout 관련 설정.(timeout 관련 설정 무시.)
+		 memoryStoreEvictionPolicy="FIFO" : 캐시 내 Element들의 제거방식은 First In First Out. 
+	 -->	
+	<cache name="prodCache" 
+		maxElementsInMemory="1000" 
+		eternal="true"
+		overflowToDisk="false" 
+		memoryStoreEvictionPolicy="FIFO" />
+	
+	<!-- 
+		member table과 cart table 대상 join Cache
+		maxElementsInMemory="500" : 최대 500개의 Element를 메모리에 저장
+		eternal="false" : 캐시 설정 중 timeout 관련 설정.(true 시 timeout 관련 설정 무시됨.)
+		diskPersistent="true" : 어플케이션 재실행시 이전 캐시에 저장된 Element를 새로운 캐시에 저장할지 여부. 
+		overflowToDisk="true" : 메모리에 Element 저장 수가 오버될때 Disk에 저장.
+		diskExpiryThreadIntervalSeconds="600" : timeout 설정을통해 제거될 Element의 스캔 스레드 동작 시간. 
+	 -->
+	<cache name="memberNcartCache" 
+		maxElementsInMemory="500" 
+		eternal="false"
+		overflowToDisk="true" 
+		timeToIdleSeconds="300" 
+		timeToLiveSeconds="600"
+		diskPersistent="true" 
+		diskExpiryThreadIntervalSeconds="600"
+		memoryStoreEvictionPolicy="LFU" />
+</ehcache>		

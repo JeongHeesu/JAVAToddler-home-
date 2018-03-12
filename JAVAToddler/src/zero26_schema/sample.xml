@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlMapConfig namespace="http://www.ddit.or.kr" 
+	xmlns="http://www.ddit.or.kr" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ddit.or.kr sample.xsd ">
+  <settings maxTransactions="5" useStatementNamespaces="true"/>
+  <transactionManager type="">
+    <dataSource>
+      <property name="" value=""/>
+    </dataSource>
+  </transactionManager>
+  <sqlMap resource=""/>
+</sqlMapConfig>

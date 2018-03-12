@@ -1,0 +1,20 @@
+객체지향 프로그래밍 5가지 원리
+
+1. SRP(Single Responsibility Principle)
+   - 단일역활의 원칙
+   - 클래스의 단일 책임 강조
+
+2. OCP(Open Close Principle)
+   - 개방과 폐쇄의 원칙
+
+3. LSP(The Liskov Substitution Principle)
+   - 리스코브 치환의 원칙
+     (다형성을통한 확장성 획득)
+
+4. ISP(Interface Segregation Principle)
+   - 인터페이스 분리 원칙
+   - 인터페이스의 단일 책임 강조
+
+5. DIP(Dependency Inversion Principle)
+   - 의존성 역전의 원칙
+   - 스프링의 IoC

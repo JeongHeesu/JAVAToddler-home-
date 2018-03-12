@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="state">
+	<update id="dropGradeTable">
+		drop table tb_grade
+	</update>
+	
+	<update id="createGradeTable">
+		create table tb_grade(
+		     grade_code varchar2(10),
+		     grade_name varchar2(30) not null,
+		     grade_description varchar2(100),
+		     constraints pk_grade primary key(grade_code)
+		)
+	</update>
+
+	<update id="dynamicCreateTable" parameterClass="map">
+		create table $tableName$(
+			<iterate property="columns" conjunction = ",">
+				$columns[].columnName$ $columns[].columnType$ ($columns[].columnSize$) $columns[].nullOption$
+				<isNotNull property = "columns[].defaultValue">
+					default '$column[].defaultValue$'
+				</isNotNull>
+			</iterate>
+			
+			constraints $pkSettingName$ primary key($pkName$),
+			
+			<iterate property="foreignKeys" conjunction=",">
+				<isNotNull property="foreignKeys[].keySettingName">
+					constraints $foreignKeys[].keySettingName$ foreign key($foreignKeys[].keyName$)
+					references $foreignKeys[].referTableName$($foreignKeys[].referColumnName$) 
+				</isNotNull>
+			</iterate>
+		)
+	</update>
+
+	<update id="dropGradeSequence">
+		drop sequence grade_code_seq
+	</update>
+	<update id="createGradeSequence">
+		create sequence grade_code_seq maxValue 9999
+	</update>
+	
+	<!-- select 조회 결과의 개별 레코드별로 insert문이 실행되며 실행시 when ~ then의 조건이 처음으로
+	     참인 into문이 실행됨.
+	 -->
+	<delete id="deleteGrades">
+		delete from tb_grade
+	</delete>
+	<insert id="insertGrades">
+		insert first
+		  when grade = 'general' then 
+		    into tb_grade
+		    values('grade'||decode(length(grade_code_seq.nextval), 1, '0'||grade_code_seq.currval, grade_code_seq.currval), grade, '마케팅집중고객')
+		  when grade = 'prime' then 
+		    into tb_grade
+		    values('grade'||decode(length(grade_code_seq.nextval), 1, '0'||grade_code_seq.currval, grade_code_seq.currval), grade, '테마마케팅고객')
+		  when grade = 'vip' then 
+		    into tb_grade
+		    values('grade'||decode(length(grade_code_seq.nextval), 1, '0'||grade_code_seq.currval, grade_code_seq.currval), grade, '우수고객')
+		  when grade = 'vvip' then 
+		    into tb_grade
+		    values('grade'||decode(length(grade_code_seq.nextval), 1, '0'||grade_code_seq.currval, grade_code_seq.currval), grade, '최우수고객')    
+		  else
+		    into tb_grade
+		    values('grade'||decode(length(grade_code_seq.nextval), 1, '0'||grade_code_seq.currval, grade_code_seq.currval), grade, '외등급')
+		<![CDATA[
+		select distinct case when mem_mileage <= 1000 then 'general'
+		            when mem_mileage <= 2000 then 'prime'
+		            when mem_mileage <= 3000 then 'vip'
+		            when mem_mileage >= 3000 then 'vvip'
+		            else 'etc'
+		       end grade
+		from member
+		]]>
+	</insert>
+</sqlMap>    

@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="member">
+	<typeAlias alias="memberBean" type="zero16_ibatis.bean.MemberBean"/>
+	<typeAlias alias="cartBean" type="zero16_ibatis.bean.CartBean"/>
+	
+	<!-- zero33/easybatch/ctrl4/pipeline/TestMain.java 파일 실행시 추가 -->
+	<typeAlias alias="memberBeanBatch" type="zero33.easybatch.MemberBean"/>
+	
+	<resultMap class="memberBean" id="memberResultMap1" groupBy="mem_id">
+		<result property="mem_like" column="mem_like"/>
+		<result property="mem_memorial" column="mem_memorial"/>
+		<result property="mem_memorialday" column="mem_memorialday"/>
+		<result property="mem_mileage" column="mem_mileage"/>
+		<result property="mem_delete" column="mem_delete"/>
+		<result property="mem_id" column="mem_id"/>
+		<result property="mem_pass" column="mem_pass"/>
+		<result property="mem_name" column="mem_name"/>
+		<result property="mem_regno1" column="mem_regno1"/>
+		<result property="mem_regno2" column="mem_regno2"/>
+		<result property="mem_bir" column="mem_bir"/>
+		<result property="mem_zip" column="mem_zip"/>
+		<result property="mem_add1" column="mem_add1"/>
+		<result property="mem_add2" column="mem_add2"/>
+		<result property="mem_hometel" column="mem_hometel"/>
+		<result property="mem_comtel" column="mem_comtel"/>
+		<result property="mem_hp" column="mem_hp"/>
+		<result property="mem_mail" column="mem_mail"/>
+		<result property="mem_job" column="mem_job"/> 
+		<result property="cartInfos" resultMap="member.cartResultMap" />      
+	</resultMap>
+
+	<resultMap class="memberBean" id="memberResultMap2" groupBy="mem_id">
+		<result property="mem_like" column="mem_like"/>
+		<result property="mem_memorial" column="mem_memorial"/>
+		<result property="mem_memorialday" column="mem_memorialday"/>
+		<result property="mem_mileage" column="mem_mileage"/>
+		<result property="mem_delete" column="mem_delete"/>
+		<result property="mem_id" column="mem_id"/>
+		<result property="mem_pass" column="mem_pass"/>
+		<result property="mem_name" column="mem_name"/>
+		<result property="mem_regno1" column="mem_regno1"/>
+		<result property="mem_regno2" column="mem_regno2"/>
+		<result property="mem_bir" column="mem_bir"/>
+		<result property="mem_zip" column="mem_zip"/>
+		<result property="mem_add1" column="mem_add1"/>
+		<result property="mem_add2" column="mem_add2"/>
+		<result property="mem_hometel" column="mem_hometel"/>
+		<result property="mem_comtel" column="mem_comtel"/>
+		<result property="mem_hp" column="mem_hp"/>
+		<result property="mem_mail" column="mem_mail"/>
+		<result property="mem_job" column="mem_job"/>
+		<!-- statement의 id cartStat를 member namespace로 접근 쿼리 질의하고
+		       질의 결과 각 레코드를 CartBean에 각각 맵핑 후 MemberBean내  List<CartBean> cartInfos 에 저장처리
+		     result에 select속성을 통해 statement 접근시 전달될 값을 column속성에 선언.
+		     column속성을 통해 전달될 값이 다수 존재시 column="{mem_id, mem_pass}" 로 선언
+		-->
+		<result property="cartInfos" column="mem_id" select="member.cartStat"/> 
+	</resultMap>
+	<!-- statement는 select, insert, update, delete 쿼리 모두를 질의할수 있으며,
+	     result되는 값 활용시 해당 쿼리가 질의됨.
+	     (서브쿼리를 활용한 질의와 동일한 실행.)
+	 -->
+	<statement id="cartStat" resultClass="cartBean">
+		select * from cart where cart_member = #mem_id#
+	</statement>
+
+	<resultMap class="cartBean" id="cartResultMap">
+		<result property="cart_member" column="cart_member"/>
+		<result property="cart_no" column="cart_no"/>
+		<result property="cart_prod" column="cart_prod"/>
+		<result property="cart_qty" column="cart_qty"/>
+	</resultMap>
+	
+	<parameterMap class="memberBean" id="memberInfo_param1">
+		<parameter property="mem_id" mode="IN" javaType="string" jdbcType="VARCHAR"/>
+		<parameter property="mem_pass" mode="IN" javaType="string" jdbcType="VARCHAR"/>
+		<parameter property="rtn_mem_regno1" mode="OUT" javaType="string" jdbcType="CHAR" nullValue="-1"/>
+		<parameter property="rtn_mem_regno2" mode="OUT" javaType="string" jdbcType="CHAR" nullValue="-1"/>
+	</parameterMap>
+	
+	<parameterMap class="map" id="memberInfo_param2">
+		<parameter property="rtn_mem_like" mode="OUT" javaType="java.lang.Object" jdbcType="VARCHAR"/>
+		<parameter property="param_mem_id" mode="IN" javaType="string" jdbcType="VARCHAR"/>
+		<parameter property="param_mem_pass" mode="IN" javaType="string" jdbcType="VARCHAR"/>
+	</parameterMap>
+	
+	<sql id="memberAll">
+		select * from member
+	</sql>
+
+	<select id="getMemberInfo" parameterClass="map" 
+		resultClass="memberBean">
+		<include refid="memberAll"/>
+		where mem_id=#mem_id#
+		  and mem_pass=#mem_pass#	
+	</select>
+	
+	<select id="getMemberInfoXML" resultClass="xml" xmlResultName="member"
+		parameterClass="map">
+		<include refid="memberAll"/>
+		where mem_id=#mem_id#
+		  and mem_pass=#mem_pass#
+	</select>
+	
+	<select id="getMemberList" resultClass="memberBean">
+		<include refid="memberAll"/>
+	</select>
+
+	<select id="getDynamicMemberList" parameterClass="map" resultClass="memberBean">
+		<include refid="memberAll"/>
+		<dynamic prepend="where">
+			<isNotEmpty property="mem_id">
+				<isEqual property="mem_id" compareValue="a001" prepend="and">
+					mem_id = #mem_id# 
+				</isEqual>
+			</isNotEmpty>
+			<isNotEmpty property="mem_id">
+				<isEqual property="mem_id" compareValue="b001" prepend="and">
+					mem_id = #mem_id# 
+				</isEqual>
+			</isNotEmpty>
+			<isNotNull property="mem_mileage" prepend="and">
+				<![CDATA[
+					mem_mileage >= #mem_mileage#
+				]]>
+			</isNotNull>
+			<isNotEmpty property="mem_add1" prepend="and">
+				mem_add1 like '%'||#mem_add1#||'%'
+			</isNotEmpty>
+			<isNotEmpty property="jobs" prepend="and">
+				mem_job in
+				<iterate open="(" close=")" conjunction="," property="jobs">
+					#jobs[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getMemberListUseList" parameterClass="list" resultClass="memberBean">
+		<include refid="memberAll"/>
+		where 1=1
+		<dynamic prepend="and">
+			mem_like in
+			<iterate open="(" conjunction="," close=")" >
+				#[]#
+			</iterate>
+		</dynamic>
+	</select>
+	
+	<update id="updateMileage" parameterClass="memberBean">
+		update member set mem_mileage = 5000
+		where mem_id = #mem_id#
+	</update>
+
+	<select id="getMemberJob" parameterClass="memberBean"
+		resultClass="string">
+		select mem_job from member 
+		where mem_id=#mem_id#
+		and mem_pass=#mem_pass#
+	</select>
+	
+	<insert id="insertMemberInfo" parameterClass="memberBean">
+		insert into member(mem_id, mem_pass, mem_name, mem_regno1,
+		                 mem_regno2, mem_zip, mem_add1, mem_add2,
+		                 mem_hometel, mem_comtel,mem_mail)
+		values(#mem_id#, #mem_pass#, #mem_name#, #mem_regno1#,
+               #mem_regno2#, #mem_zip#, #mem_add1#, #mem_add2#,
+               #mem_hometel#, #mem_comtel#,#mem_mail#)
+        <selectKey resultClass="string">
+        	select mem_id from member where mem_id = #mem_id#
+        </selectKey>
+	</insert>
+	
+	<delete id="deleteMemberInfo" parameterClass="map">
+		delete from member
+		where mem_id = #mem_id#
+	</delete>
+	
+	<select id="tablejoin1" parameterClass="string"
+		resultMap="memberResultMap1">
+		<include refid="memberAll"/> left outer join cart on(member.mem_id=cart.cart_member)
+		where member.mem_id = #mem_id#
+	</select>
+
+	<select id="tablejoin2" parameterClass="string"
+		resultMap="memberResultMap2">
+		<include refid="memberAll"/>
+		where member.mem_id = #mem_id#
+	</select>
+	
+	<procedure id="iUP_MemberInfo1" parameterMap="memberInfo_param1">
+		{ call UP_MemberInfo(?,?,?,?) }
+	</procedure>
+	
+	<procedure id="iUP_MemberInfo2" parameterClass="memberBean">
+		{ call UP_MemberInfo(#param_mem_id,mode=IN,javaType=string,jdbcType=VARCHAR#,
+		                     #param_mem_pass,mode=IN,javaType=string,jdbcType=VARCHAR#,
+		                     #rtn_mem_regno1,mode=OUT,javaType=string,jdbcType=CHAR,nullValue=-1#,
+		                     #rtn_mem_regno2,mode=OUT,javaType=string,jdbcType=CHAR,nullValue=-1#)
+		}
+	</procedure>
+	
+	<!-- iBatis에서 procedure or funciton 호출시 procedure 
+		elements를 활용
+	 -->
+	<procedure id="iUF_MemberInfo1" parameterMap="memberInfo_param2">
+		{ ? = call UF_MemberInfo(?, ?) }
+	</procedure>
+	
+	<procedure id="iUF_MemberInfo2" parameterClass="map">
+		{ #rtn_mem_like,mode=OUT,javaType=string,jdbcType=VARCHAR# 
+		  = call UF_MemberInfo(#param_mem_id,mode=IN,javaType=string,jdbcType=VARCHAR#,
+		                       #param_mem_pass,mode=IN,javaType=string,jdbcType=VARCHAR#)
+		}                       
+	</procedure>
+
+	<!-- oracle cursor 객체 취득 -->
+	<resultMap class="memberBean" id="memberInfo_result1">
+		<result property="mem_regno1" column="rtn_mem_regno1"/>
+		<result property="mem_regno2" column="rtn_mem_regno2"/>
+		<result property="mem_add1" column="rtn_mem_add1"/>
+		<result property="mem_add2" column="rtn_mem_add2"/>
+	</resultMap>
+	
+	<parameterMap class="map" id="memberInfo_param3">
+		<parameter property="param_mem_id" mode="IN" javaType="string" jdbcType="VARCHAR" />
+		<parameter property="param_mem_pass" mode="IN" javaType="string" jdbcType="VARCHAR"/>
+		<parameter property="memberObj" mode="OUT" javaType="java.sql.ResultSet" 
+		    jdbcType="ORACLECURSOR"	resultMap="memberInfo_result1"/>
+	</parameterMap>	
+	
+	<procedure id="iPkg_UP_MemberInfo5" parameterMap="memberInfo_param3">
+		{ call pkg_UP_MemberInfoCursor.UP_MemberInfoCursor(?, ?, ?) }
+	</procedure>
+	
+	<!-- zero33/easybatch/ctrl4/pipeline/TestMain.java 파일 작성시 추가
+	     parameterClass="memberBean" 선언으로 type mismatch 익셉션 발생
+	     parameterClass="memberBeanBatch" 선언으로 정상처리
+	 -->
+	<update id="updateMileageBatchProcessing" parameterClass="memberBean">
+		update member set mem_mileage = #mem_mileage#
+		where mem_id = #mem_id#
+	</update>
+</sqlMap>    
+
+
+
+
+
+
+
+
+

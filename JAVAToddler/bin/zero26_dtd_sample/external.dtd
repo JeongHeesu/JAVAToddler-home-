@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ENTITY % commonMemberInfo "mem_id, mem_pass, mem_name">
+   <!ELEMENT mem_id (#PCDATA)>
+   <!ELEMENT mem_pass (#PCDATA)>
+   <!ELEMENT mem_name (#PCDATA)>

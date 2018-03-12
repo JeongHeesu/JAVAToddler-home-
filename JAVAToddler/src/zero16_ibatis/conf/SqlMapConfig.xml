@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMapConfig      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<properties resource="zero16_ibatis/conf/SqlMapConfig.properties" />
+	<settings cacheModelsEnabled="true" enhancementEnabled="true"
+		lazyLoadingEnabled="true" maxRequests="32" maxSessions="10"
+		maxTransactions="5" useStatementNamespaces="true" />
+
+	<!--
+		java JDBC : autoCommit(false)으로 트랜잭션 처리
+		            autoCommit(false)-commit()
+					                 -rollback()
+		iBatis JDBC : auto transaction으로 트랜잭션 처리.
+		              iBatis는 모든 쿼리를 트랜잭션 단위로 처리.
+					  로컬 트랜잭션 처리 startTransaction();
+					                     commitTransaction();
+										 endTransaction();
+	-->
+	<transactionManager type="JDBC">
+		<dataSource type="SIMPLE">
+			<property name="JDBC.Driver" value="${driver}" />
+			<property name="JDBC.ConnectionURL" value="${url}" />
+			<property name="JDBC.Username" value="${username}" />
+			<property name="JDBC.Password" value="${password}" />
+		</dataSource>
+	</transactionManager>
+	<sqlMap resource="zero16_ibatis/mapper/member.xml"/>
+	<sqlMap resource="zero16_ibatis/mapper/queryState.xml"/>
+</sqlMapConfig>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

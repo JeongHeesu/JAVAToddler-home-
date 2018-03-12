@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.ddit.or.kr"
+	xmlns="http://www.ddit.or.kr"
+	elementFormDefault="qualified">
+	<xsd:element name="sqlMapConfig">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="properties" maxOccurs="1" minOccurs="0">
+					<xsd:complexType>
+						<xsd:attribute name="resource" type="xsd:string"/>
+					</xsd:complexType>
+				</xsd:element>
+				
+				<xsd:element name="settings">
+					<xsd:complexType>
+						<xsd:attribute name="cacheModelsEnabled" type="xsd:boolean" default="true" use="optional"/>
+						<xsd:attribute name="enhancementEnabled" type="xsd:boolean" default="true" use="optional"/>
+						<xsd:attribute name="lazyLoadingEnabled" type="xsd:boolean" default="true" use="optional"/>
+						<xsd:attribute name="maxRequests" type="xsd:int" default="32" use="optional"/>
+						<xsd:attribute name="maxSessions" type="xsd:int" default="10" use="optional"/>
+						<xsd:attribute name="maxTransactions" type="xsd:int" fixed="5" use="required"/>
+						<xsd:attribute name="useStatementNamespaces" type="xsd:boolean" fixed="true" use="required"/>
+					</xsd:complexType>
+				</xsd:element>
+
+				<xsd:element name="transactionManager">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="dataSource">
+								<xsd:complexType>
+									<xsd:sequence minOccurs="1" maxOccurs="unbounded">
+										<xsd:element name="property">
+										    <xsd:complexType>
+												<xsd:attribute name="name" type="xsd:string" use="required"/>
+												<xsd:attribute name="value" type="xsd:string" use="required"/>
+											</xsd:complexType>
+                                        </xsd:element>
+									</xsd:sequence>
+									<xsd:attribute name="type" type="xsd:string" default="SIMPLE" use="optional"/>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+						<xsd:attribute name="type" type="xsd:string" use="required"/>
+					</xsd:complexType>
+				</xsd:element>
+
+				<xsd:element name="sqlMap">
+					<xsd:complexType>
+						<xsd:attribute name="resource" type="xsd:string" use="required"/>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+			<xsd:attribute name="namespace" type="xsd:string" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

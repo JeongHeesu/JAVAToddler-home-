@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <!DOCTYPE members SYSTEM "../zero26_dtd_sample/elements.dtd"> -->
+<!DOCTYPE members PUBLIC "-//localhost//DTD elements 1.0//KO"      
+    "http://localhost/elements.dtd">
+<!-- PUBLIC 접근을위해서는 특정 서버에 접근을위한 설정이 필요. -->
+<members>
+	<member>
+		<mem_id>a001</mem_id>
+		<mem_pass>asdfasdf</mem_pass>
+		<mem_name>김은대</mem_name>
+		<mem_hometel>041-111-1111</mem_hometel>
+	</member>
+	<member>
+		<male>남성</male>
+		<mem_id>a001</mem_id>
+		<mem_pass>asdfasdf</mem_pass>
+		<mem_name>김은대</mem_name>
+		<mem_comtel>042-111-1111</mem_comtel>
+		<mem_mail>test1@ddit.or.kr</mem_mail>
+	</member>
+</members>

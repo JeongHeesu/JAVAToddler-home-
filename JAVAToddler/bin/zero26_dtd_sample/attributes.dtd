@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT members (member)+>
+	<!ELEMENT member (#PCDATA)>
+		<!ATTLIST member mem_id ID #REQUIRED
+		                 mem_pass CDATA #REQUIRED
+		                 mem_name CDATA #REQUIRED
+		                 mem_nickname CDATA #IMPLIED
+		                 mem_regno1 CDATA #REQUIRED
+		                 mem_regno2 CDATA #REQUIRED
+		                 mem_job (회사원|주부|군인) #IMPLIED
+		                 mem_like NMTOKENS #IMPLIED>

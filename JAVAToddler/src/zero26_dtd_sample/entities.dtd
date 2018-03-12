@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT members (member)+>
+    <!-- 외부 dtd를 memberInfo라는 객체명으로 include 처리 -->
+	<!ENTITY % memberInfo SYSTEM "external.dtd">
+	<!-- 외부객체 참조 선언 -->
+	%memberInfo;
+	<!ELEMENT member ((male | female)?, %commonMemberInfo;, mem_regno1?, mem_regno2?,
+	                  (mem_hometel | mem_comtel | mem_hp)+, mem_mail*)>
+		<!ELEMENT male (#PCDATA)>                                        
+		<!ELEMENT female (#PCDATA)>                                        
+		<!ELEMENT mem_regno1 (#PCDATA)>
+		<!ELEMENT mem_regno2 (#PCDATA)>
+		<!ELEMENT mem_hometel (#PCDATA)>
+		<!ELEMENT mem_comtel (#PCDATA)>
+		<!ELEMENT mem_hp (#PCDATA)>
+		<!ELEMENT mem_mail (#PCDATA)>

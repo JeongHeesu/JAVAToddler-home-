@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<members>
+	<member mem_id="a001">
+		<mem_pass>asdfasdf</mem_pass>
+		<mem_name>김은대</mem_name>
+	</member>
+	<member mem_id="b001">
+		<mem_pass>1004</mem_pass>
+		<mem_name>이쁜이</mem_name>
+	</member>
+	<total>73</total>
+</members>  
